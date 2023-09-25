@@ -1,55 +1,51 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import firebase from "../../Firebase";
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import firebase from '../../Firebase';
 
 class Cadastro extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: "",
-      senha: "",
-      nome: "",
-      sobrenome: "",
-      dtnasc: "",
+      email: '',
+      senha: '',
+      nome: '',
+      sobrenome: '',
+      dtnasc: '',
     };
 
     this.gravar = this.gravar.bind(this);
   }
 
   async gravar() {
-    var cadastroRealizadoComSUcesso = 0;
+    let cadastroRealizadoComSUcesso = 0;
 
     firebase
       .auth()
       .createUserWithEmailAndPassword(this.state.email, this.state.senha)
       .then(async (retorno) => {
-        await firebase
-          .firestore()
-          .collection("usuario")
-          .doc(retorno.user.uid)
-          .set({
-            nome: this.state.nome,
-            sobrenome: this.state.sobrenome,
-            dtnasc: this.state.dtnasc,
-          });
+        await firebase.firestore().collection('usuario').doc(retorno.user.uid).set({
+          nome: this.state.nome,
+          sobrenome: this.state.sobrenome,
+          dtnasc: this.state.dtnasc,
+        });
 
-        alert("Usuário cadastrado com sucesso");
+        alert('Usuário cadastrado com sucesso');
         cadastroRealizadoComSUcesso = 1;
 
         if (cadastroRealizadoComSUcesso === 1) {
-          window.location.href = "/Interna";
+          window.location.href = '/Interna';
           cadastroRealizadoComSUcesso = 0;
         }
       })
       .catch((error) => {
-        if (error.code === "auth/weak-password") {
-          alert("A senha deve ter no mínimo 6 caracteres!");
+        if (error.code === 'auth/weak-password') {
+          alert('A senha deve ter no mínimo 6 caracteres!');
         }
-        if (error.code === "auth/invalid-email") {
-          alert("O e-mail digitado é inválido!");
+        if (error.code === 'auth/invalid-email') {
+          alert('O e-mail digitado é inválido!');
         }
-        if (error.code === "auth/email-already-in-use") {
-          alert("O e-mail digitado já está cadastrado!");
+        if (error.code === 'auth/email-already-in-use') {
+          alert('O e-mail digitado já está cadastrado!');
         }
       });
   }
@@ -117,8 +113,7 @@ class Cadastro extends Component {
         <br />
         <br />
         <footer>
-          Somativa 02 - Tecnologia Para Desenvolvimento Web - Victor Hugo
-          Rabello Teixeira
+          Somativa 02 - Tecnologia Para Desenvolvimento Web - Victor Hugo Rabello Teixeira
         </footer>
       </div>
     );
