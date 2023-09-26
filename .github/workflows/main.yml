@@ -22,7 +22,7 @@ jobs:
       run: npm install
 
     - name: Build
-      run: npm run build
+      run: npm start
 
     - name: Test
       run: npm test
@@ -52,6 +52,6 @@ jobs:
 
     - name: Limpar contêineres Docker antigos
       run: |
-        docker stop $(docker ps -a -q)  # Para todos os contêineres em execução
-        docker rm $(docker ps -a -q)    # Remove todos os contêineres parados
+        docker stop ${{ secrets.DOCKER_USERNAME }}/docker_react:latest  # Para todos os contêineres em execução
+        docker rm ${{ secrets.DOCKER_USERNAME }}/docker_react:latest    # Remove todos os contêineres parados
       if: always()  # Isso garantirá que a etapa seja executada, mesmo se etapas anteriores falharem
