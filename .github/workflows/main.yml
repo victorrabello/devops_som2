@@ -32,16 +32,13 @@ jobs:
 
     - name: Build Docker Image
       run: |
-        docker build -t dougoga1/docker_react .
+        docker build -t dougoga1/docker_react:latest .
       if: always()
 
-    - name: Build and push Docker image
-      env:
-        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+    - name: Push Docker Image
       run: |
-        docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-        docker push dougoga1/docker_react:${{ github.sha }}
+        echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login --username sonats --password-stdin
+        docker push dougoga1/dougoga1/docker_react:latest
 
     - name: Send Telegram Message
       env:
